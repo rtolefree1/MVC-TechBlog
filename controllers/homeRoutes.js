@@ -70,6 +70,10 @@ router.get('/Dashboard', (req, res)=>{
 
 });
 
+router.get('/register', (req, res)=>{
+    res.render('register');
+})
+
 // router.get('/', async (req, res) =>{
 //     console.log("**********GETTING ALL USER INFO**********")
 //     try{
