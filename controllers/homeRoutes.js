@@ -1,33 +1,103 @@
 const router = require('express').Router();
-const {  User } = require('../models');
+const {  User, Blog } = require('../models');
 
 
 //console.log('Arrived in the Before homeRoutes.js file');
 
-router.get('/',(req, res) => {
+router.get('/',async (req, res) => {
     console.log('Arrived in the root method, homeRoutes file');
     try{
-        
-        res.render('login');
-    
-    }catch(err){
-        res.status(500).json(err);
-    }
-})
+        console.log('login session', req.session.loggedIn)
+       // req.sesson.loggedIn,
+       const blogData = await Blog.findAll({
+        include: [
+            {
+            model: User,
+            attributes: ['name'],
+            },
+        ],
 
-router.get('/home',(req, res) => {
-    console.log('Arrived in the /home method, homeRoutes.js file');
-    try{
-        if(req.session.loggedIn){
-            res.render('homepage');
-            return;
-        }
-        res.render('login');
+       });
+      
+       const blogs = blogData.map((blog) => blog.get({plain: true}))
+       console.log('blogs data', blogs) 
+       res.render('login',{
+            blogs,
+            loggedIn: req.session.loggedIn
+
+        });
+      //  res.render('login')
     
     }catch(err){
         res.status(500).json(err);
     }
 })
+// ORIG
+// router.get('/home',(req, res) => {
+//     console.log('Arrived in the /home method, homeRoutes.js file');
+//     try{
+//         if(req.session.loggedIn){
+//             res.render('homepage');
+//             return;
+//         }
+//         res.render('login');
+    
+//     }catch(err){
+//         res.status(500).json(err);
+//     }
+// })
+
+router.get('/home', async (req, res) => 
+{
+    console.log('Arrived in the /home method, homeRoutes.js file');
+    
+    try
+    {
+        console.log('login session', req.session.loggedIn)
+       // req.sesson.loggedIn,
+       const blogData = await Blog.findAll
+       ({
+            include: 
+                [
+                    {
+                    model: User,
+                    attributes: ['name'],
+                    },
+                ],
+
+        })
+      
+       const blogs = blogData.map((blog) => blog.get({plain: true}))
+       console.log('blogs data', blogs) 
+       
+       res.render('homepage',
+       {
+            blogs,
+            loggedIn: req.session.loggedIn,
+            email: req.session.email
+
+        });
+        }catch(err){
+            res.status(500).json(err);
+        }
+    });
+
+    
+    
+    // try{
+    //     if(req.session.loggedIn){
+    //         res.render('homepage',{
+    //             loggedIn:req.session.loggedIn
+    //         });
+    //         return;
+    //     }
+    //     res.render('homepage');
+        // res.render('login');
+    
+    // }catch(err){
+    //     res.status(500).json(err);
+    // }
+// })
 
 router.get('/login', (req, res)=>{
     console.log('Am i logged in?', req.session.loggedIn)
@@ -37,13 +107,35 @@ router.get('/login', (req, res)=>{
         res.render('alreadyLogin');
         return;
     }
-
-    res.render('login');
+    req.session.loggedIn = false;
+    res.render('login',{loggedIn:req.session.loggedIn});
 }catch(err){
     res.status(500).json(err);
 }
 
 });
+
+router.get('/blog/:id', async (req, res) => {
+    try {
+      const blogData = await Blog.findByPk(req.params.id, {
+        include: [
+          {
+            model: User,
+            attributes: ['name'],
+          },
+        ],
+      });
+  
+      const blog = blogData.get({ plain: true });
+  
+      res.render('blog', {
+        ...blog,
+        loggedIn: req.session.loggedIn
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
 // router.get('/logout', (req, res)=>{
 //     console.log('Arrived in the /logout method, homeRoutes.js file');
@@ -55,68 +147,69 @@ router.get('/login', (req, res)=>{
 
 // });
 
-router.get('/Dashboard', (req, res)=>{
+router.get('/Dashboard', async (req, res)=>{
+    
     console.log('Arrived in the /Dashboard method, homeRoutes.js file');
-    try{
-    if(req.session.loggedIn){
-        console.log("**********DISPLAY DASHBOARD***************", req.session.loggedIn)
-        res.render('Dashboard');
-        return;
-    }
-    res.render('login');
-}catch(err){
-    res.status(500).json(err)
-}
+    // try{
 
-});
+      const blogData = await Blog.findAll({
+        where:{user_id: req.session.user_id}
+      });
+      const blogs = blogData.map((blog) => blog.get({plain: true}))
+      console.log("id: ", req.session.user_id);
+      console.log("Blog Data", blogData);
+    //   const userData = await User.findOne({ where: { email: req.body.email } });
+    
+    //   console.log('#######ID*********', userData.id);
+    //   console.log('#######NAME*********', userData.name);
+    //   console.log('#######EMAIL*********', userData.email);
+    //   console.log('#######PASSWORD*********', userData.password);
+    //   console.log('#######USERDATA******* :',userData);
+
+      // const blogData = await Blog.findByPk(req.session.id, {
+      //   include: [
+      //     {
+      //       model: User,
+      //       attributes: ['name'],
+      //     },
+      //   ],
+      // });
+      // console.log('########',blogData)
+      // const blog = blogData.get({ plain: true });
+      // console.log('blog info',blog)
+      res.render('Dashboard', {blogs, loggedIn:req.session.loggedIn});
+    // }
+    // catch(err){
+    //   res.status(500).json(err)
+    // }
+
+  });
 
 router.get('/register', (req, res)=>{
-    res.render('register');
+    req.session.loggedIn = false;
+    res.render('register',{loggedIn:req.session.loggedIn});
 })
 
-// router.get('/', async (req, res) =>{
-//     console.log("**********GETTING ALL USER INFO**********")
-//     try{
-//         console.log("**********GETTING ALL USER INFO**********")
-//         const allUsers = await User.findAll();
-//         res.status(200).json(allUsers);
-//     }catch(err){
-//         res.status(500).json(err);
-//     }
-// })
-
-//###################TESTING#######################
-// router.post('/login', async (req, res) => {
-//     try {
-//       const userData = await User.findOne({ where: { email: req.body.email } });
-//       console.log('*******USERDATA******* :',userData);
-//       if (!userData) {
-//         res
-//           .status(400)
-//           .json({ message: 'Incorrect email or password, please try again' });
-//         return;
-//       }
+router.get('/comments', async (req, res) => {
+    try {
+      const singleBlogData = await Blog.findByPk(req.session.id, {
+        include: [
+          {
+            model: User,
+            attributes: ['name'],
+          },
+        ],
+      });
   
-//       const validPassword = await userData.checkPassword(req.body.password);
-  
-//       if (!validPassword) {
-//         res
-//           .status(400)
-//           .json({ message: 'Incorrect email or password, please try again' });
-//         return;
-//       }
-  
-//       req.session.save(() => {
-//         req.session.user_id = userData.id;
-//         req.session.logged_in = true;
-        
-//         res.json({ user: userData, message: 'You are now logged in!' });
-//       });
-  
-//     } catch (err) {
-//       res.status(400).json(err);
-//     }
-//   });
-
+      const userBlog = singleBlogData.get({ plain: true });
+      console.log('userBlog: ', userBlog)
+    //   res.render('blog', {
+    //     ...blog,
+    //     loggedIn: req.session.loggedIn
+    //   });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
 module.exports = router;

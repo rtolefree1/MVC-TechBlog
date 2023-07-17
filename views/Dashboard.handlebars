@@ -1,1 +1,19 @@
-<p>DASHBOARD</p>
+<h1>USER DASHBOARD</h1>
+
+{{#each blogs as |blog|}}
+<br />
+<p>**************************</p>
+<h2>{{blog.nameOfBlog}}</h2>
+<p>UserId: {{blog.user_id}}</p>
+<p>{{blog.blogComments}}</p>
+<p>**************************</p>
+<br />
+{{/each}}
+
+
+<form>
+  <input id="CreateBlog" type="submit" value="Create New Blog">
+</form>
+
+
+<script src="./js/blog.js"></script>

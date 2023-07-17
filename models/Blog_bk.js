@@ -5,9 +5,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Blog extends Model {}
+class Old_BlogOLD extends Model {}
 
-Blog.init( // in solution blog/post it only has: title and body; post and comment
+Old_BlogOLD.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -40,8 +40,8 @@ Blog.init( // in solution blog/post it only has: title and body; post and commen
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'blog',
-  } // can add time stamp
+    modelName: 'Old_BlogOLD',
+  }
 );
 
-module.exports = Blog;
+module.exports = Old_BlogOLD;

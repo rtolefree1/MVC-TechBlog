@@ -50,3 +50,5 @@ const logout = async () => {
   };
   
   document.querySelector('#logout-tab2').addEventListener('click', logout);
+
+  

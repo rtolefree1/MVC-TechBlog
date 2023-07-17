@@ -1,13 +1,11 @@
-/****************************
- * Note: code from 14 MVC Mini Project with modifications
- * 
- ****************************/
+// body; time, who made
+
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Blog extends Model {}
+class Comment extends Model {}
 
-Blog.init( // in solution blog/post it only has: title and body; post and comment
+Comment.init( // in solution blog/post it only has: title and body; post and comment
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,18 +13,15 @@ Blog.init( // in solution blog/post it only has: title and body; post and commen
       primaryKey: true,
       autoIncrement: true,
     },
-    nameOfBlog: {
+    body: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    blogComments: {
-      type: DataTypes.STRING,
-    },
-    date_created: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
+    // date_created: {
+    //   type: DataTypes.DATE,
+    //   allowNull: false,
+    //   defaultValue: DataTypes.NOW,
+    // },
     user_id: {
       type: DataTypes.INTEGER,
       references: {
@@ -40,8 +35,8 @@ Blog.init( // in solution blog/post it only has: title and body; post and commen
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'blog',
+    modelName: 'Old_BlogOLD',
   } // can add time stamp
 );
 
-module.exports = Blog;
+module.exports = Comment;

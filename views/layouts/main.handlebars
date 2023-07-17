@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist"
+    {{!-- <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist"
         style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
         <li class="nav-item" role="presentation">
             <button class="nav-link active rounded-5" id="home-tab2" data-bs-toggle="tab" type="button" role="tab"
@@ -34,6 +34,8 @@
         </li>
 
     </ul>
+    
+    
     <main>
         
         {{{body}}}
@@ -46,6 +48,67 @@
   <script src="/js/logout.js"></script>
   {{/if}}
   <script src="/js/pages.js"></script>
+  
+</body>
+
+</html>
+    
+     --}}
+ <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist"
+        style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
+       
+         {{#if loggedIn}}
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active rounded-5" id="home-tab2" data-bs-toggle="tab" type="button" role="tab"
+                aria-selected="true">HomePage</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="profile-tab2" data-bs-toggle="tab" type="button" role="tab"
+                aria-selected="false">DashBoard</button>
+        </li>
+         <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="logout-tab2" data-bs-toggle="tab" type="button" role="tab"
+                aria-selected="false">Logout</button>
+        </li>
+        {{else}}
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="home-tab2" data-bs-toggle="tab" type="button" role="tab"
+                aria-selected="false">HomePage</button>
+        </li>
+        
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="login-tab2" data-bs-toggle="tab" type="button" role="tab"
+                aria-selected="false">Login</button>
+        </li>
+       
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="register-tab2" data-bs-toggle="tab" type="button" role="tab"
+                aria-selected="false">register</button>
+        </li>
+        {{/if}}
+    </ul>
+
+
+    <main>
+        
+        {{{body}}}
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+<script src="/js/loginRegister.js"></script>
+
+ {{#if loggedIn}}
+ <script src="/js/pages.js"></script>
+ <script src="/js/homePage.js"></script>
+  <script src="/js/logout.js"></script>
+  {{else}}
+  <script src="/js/loginRegister.js"></script>
+  <script src="/js/homePage.js"></script>
+  {{/if}}
+  
   
 </body>
 
