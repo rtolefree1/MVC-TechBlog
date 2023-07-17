@@ -1,7 +1,7 @@
 # MVC-TechBlog
 # 14 Model-View-Controller (MVC): Tech Blog
 
-## Your Task
+## My Task
 
 Writing about tech can be just as important as making it. Developers spend plenty of time creating new applications and debugging existing codebases, but most developers also spend at least some of their time reading and writing about technical concepts, recent advancements, and new technologies. A simple Google search for any concept covered in this course returns thousands of think pieces and tutorials from developers of all skill levels!
 
@@ -18,6 +18,7 @@ SO THAT I can publish articles, blog posts, and my thoughts and opinions
 ## Acceptance Criteria
 
 ```md
+****************COMPLETE****************
 GIVEN a CMS-style blog site
 WHEN I visit the site for the first time
 THEN I am presented with the homepage, which includes existing blog posts if any have been posted; navigation links for the homepage and the dashboard; and the option to log in
@@ -41,6 +42,8 @@ WHEN I enter a comment and click on the submit button while signed in
 THEN the comment is saved and the post is updated to display the comment, the comment creator’s username, and the date created
 WHEN I click on the dashboard option in the navigation
 THEN I am taken to the dashboard and presented with any blog posts I have already created and the option to add a new blog post
+
+****************INCOMPLETE****************
 WHEN I click on the button to add a new blog post
 THEN I am prompted to enter both a title and contents for my blog post
 WHEN I click on the button to create a new blog post
